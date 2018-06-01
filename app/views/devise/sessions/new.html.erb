@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+<div class="card text-center">
+  <div class="card-header">
+    <h2>Sign in to access your Account</h2>
+  </div>
+
+  <div class="card-body">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+      <div class="field form-group border">
+        <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Enter Email Address' %>
+      </div>
+
+      <div class="field form-group border">
+        <%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Enter Password'  %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <span class="field form-check float-left">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </span>
+      <% end -%>
+
+      <span class="actions">
+        <%= f.submit "Log In", class: 'btn btn-primary float-right' %>
+      </span>
+
+    <% end %>
+
+    <div class="card-text">
+      <%= render "devise/shared/links" %>
+    </div>
+
+    <div class="clearfix"></div>
+    <p class="content-divider center mt-4"><span>or</span></p>
+
+    <p class="mt-4 social-login text-center">
+
+      <%= link_to '', user_facebook_omniauth_authorize_path, class: 'btn btn-facebook ion-social-facebook' %>
+      <%= link_to '', user_google_oauth2_omniauth_authorize_path, class: 'btn btn-google ion-social-googleplus' %>
+      <%= link_to '', user_linkedin_omniauth_authorize_path, class: 'btn btn-linkedin ion-social-linkedin' %>
+      <%# link_to '', user_facebook_omniauth_authorize_path, class: 'btn btn-facebook ion-social-facebook' %>
+
+      <a href="#" class="btn btn-twitter"><em class="ion-social-twitter"></em></a>
+    </p>
+
+    <p class="text-center">
+      Don't have an account yet?
+      <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <%= link_to "Sign Up Now", new_registration_path(resource_name) %><br />
+      <% end -%>
+    </p>
+  </div>
+</div>
+  </div>
+</div>
+
+
+
+

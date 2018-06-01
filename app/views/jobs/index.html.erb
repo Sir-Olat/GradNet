@@ -1,0 +1,71 @@
+<h4 class="text-center">Post new Job</h4>
+
+<%= form_with(model: @job, local: true) do |form| %>
+    <% if @job.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@job.errors.count, "error") %> prohibited this job from being saved:</h2>
+
+          <ul>
+            <% @job.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :title %>
+      <%= form.text_field :title, id: :job_title %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description %>
+      <%= form.text_area :description, id: :job_description %>
+    </div>
+
+    <div>
+      <%= select_tag(:category_id, options_for_select(@categories), :prompt => 'Select Job Category!') %>
+    </div>
+
+    <div class='field'>
+      <%= form.label :tag_list, 'Tags (separated by commas)' %><br/>
+      <%= form.text_field :tag_list %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Post Job' %>
+    </div>
+<% end %>
+
+
+<h1>Jobs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Tags</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @jobs.each do |job| %>
+      <tr>
+        <td><%= job.title %></td>
+        <td><%= job.description %></td>
+        <td><%= link_to Category.find(job.category_id).name, category_path(job.category_id) %></td>
+        <td><p>Tags: <%= raw(job.tag_list.map { |t| link_to t, tag_path(t) }.join(', ')) %></p></td>
+        <td><%= link_to 'Show', job %></td>
+        <td><%= link_to 'Edit', edit_job_path(job) %></td>
+        <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Job', new_job_path %>

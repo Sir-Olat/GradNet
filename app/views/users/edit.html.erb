@@ -1,0 +1,73 @@
+<% provide(:page_title, 'Update Profile') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <!--Basic Information Section-->
+    <%= form_tag info_path,  multipart: true  do %>
+        <%= fields_for :user do |f| %>
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">
+                  Profile Information
+                </div>
+              </div>
+
+              <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
+                  <div class="field">
+                    <%= f.label :profile_picture %>
+                    <%= f.file_field :profile_picture, class: 'form-control' %>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="field">
+                    <%= f.label :name %>
+                    <%= f.text_field :name, autofocus: true, value: current_user.name, class: 'form-control' %>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="field">
+                    <%= f.label :email %>
+                    <%= f.text_field :email, value: current_user.email, class: 'form-control' %>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="field">
+                    <%= f.label :bio %>
+                    <%= f.text_area :bio, value: current_user.bio,  class: 'form-control' %>
+                  </div>
+                </li>
+
+                <li class="list-group-item">
+                  <div class="field">
+                    <%= f.label :address %>
+                    <%= f.text_area :address, value: current_user.address,  class: 'form-control' %>
+                  </div>
+                </li>
+
+                <!--#  gender                 :integer          default("male")-->
+                <!--#  date_of_birth          :datetime-->
+                <!--#  year_of_graduation     :integer-->
+                <!--#  work_place             :string-->
+                <!--#  course_studied         :string-->
+                <!--#  field_of_expertise     :string-->
+
+                <li class="list-group-item">
+                  <div class="field">
+                    <%= f.submit 'Update Profile',  class: 'btn btn-primary' %>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+
+        <% end %>
+
+    <% end %>
+  </div>
+
+</div>

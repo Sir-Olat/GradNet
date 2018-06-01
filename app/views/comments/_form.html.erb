@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-7">
+    <%= form_for @new_comment do |f| %>
+        <%= f.hidden_field :commentable_id, value: @new_comment.commentable_id %>
+        <%= f.hidden_field :commentable_type, value: @new_comment.commentable_type %>
+        <div class="field form-group">
+          <%= f.text_area :body, class: 'form-control', placeholder: 'Write comment...', rows: '5' %>
+        </div>
+        <div class="field form-group">
+          <%= submit_tag 'Comment', class: 'btn btn-primary' %>
+        </div>
+    <% end %>
+  </div>
+</div>

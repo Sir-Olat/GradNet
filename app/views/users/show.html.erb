@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col">
+    <h4 class="text-center">Profile Page</h4>
+    <% if @user == current_user %>
+      <div class="dropdown">
+        <button class="btn btn-primary float-right dropdown-toggle", style= 'margin-bottom:5px;' type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Settings
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <%= link_to 'Update Profile Information', edit_profile_path, class: 'dropdown-item' %>
+          <%= link_to 'Change Password', edit_password_path, class: 'dropdown-item' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card" style="width: 20rem;">
+      <% if @user.profile_picture.present? %>
+          <%= image_tag @user.profile_picture.url(:thumb) %>
+          <%= link_to 'Change Profile Picture', '#' %>
+      <% else %>
+        <img class="card-img-top" src="http://via.placeholder.com/10x10" alt="Card image cap">
+          <%= link_to 'Upload Profile Picture', '#' %>
+      <% end %>
+      <div class="card-body">
+        <h4 class="card-title"><%= @user.name %></h4>
+        <p class="card-text"><%= @user.bio %>.</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <% @user.discussions.each do |discussion| %>
+      <div class="card">
+        <div class="card-title">
+          <%= @user.name %>
+        </div>
+
+        <div class="card-body">
+          <p class=" card-text lead">
+            <% if  discussion.body.length > 300 %>
+                <%= truncate(discussion.body, length:300) %>
+                <%= link_to 'Continue reading', '', class: "read-more-#{discussion.id}" %>
+                <script>
+                    $('.read-more-<%= discussion.id %>').on('click', function(e){
+                        e.preventDefault()
+                        $(this).parent().html('<%= escape_javascript discussion.body %>')
+                    })
+                </script>
+
+            <% else %>
+                <%= discussion.body %>
+            <% end %>
+          </p>
+          <%= link_to 'Like', like_discussion_path(discussion), method: :post %> |
+          <a class="" data-toggle="collapse" href="#collapseExample-<%=  discussion.id %>" aria-expanded="false" aria-controls="collapseExample">
+            Comment
+          </a>
+          <% if discussion.user == current_user %>
+              | <%= link_to 'Edit', edit_discussion_path(discussion) %>
+              | <%= link_to 'Delete', discussion, method: :delete, data: {confirm: 'Delete Post???'} %>
+          <% end %>
+          <span class="float-right text-muted">
+              <%= pluralize discussion.likes.count, 'Like' %> | 23 Comments
+            </span>
+          <br>
+          <hr>
+
+          <div class="collapse" id="collapseExample-<%=  discussion.id %>">
+            <div class="card card-body border-0">
+              <h3>Comments</h3>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+
